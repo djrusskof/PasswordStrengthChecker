@@ -12,7 +12,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <img src="images/PasswordStrengthChecker.ico" alt="Logo" width="80" height="80">
+  <img src="images/PasswordStrengthChecker.png" alt="Logo" width="80" height="80">
 
   <h3 align="center">Password Strength Checker</h3>
 
