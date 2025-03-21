@@ -4,29 +4,77 @@ import re
 import ctypes
 
 
-# Function to show/hide password
+'''
+    Password Strength Checker
+    This program is a simple password strength checker that allows the user to type a password and see its strength.
+    The password strength is calculated based on the following criteria:
+    - Length >= 8
+    - At least one uppercase letter
+    - At least one lowercase letter
+    - At least one digit
+    - At least one special character
+    - Less than 30% repeated characters
+    - No sequences of 3 or more repeated characters
+    The program also allows the user to show/hide the password and copy it to the clipboard.
+    The password strength is displayed as a text and an image.
+    The image changes based on the password strength.
+    The program uses tkinter for the GUI and PIL for image manipulation.
+    The program is a single file and can be run directly.
+'''
+
+
+VERY_STRONG_PASSWORD = "Very Strong"
+STRONG_PASSWORD = "Strong"
+MEDIUM_PASSWORD = "Medium"
+WEAK_PASSWORD = "Weak"
+VERY_WEAK_PASSWORD = "Very Weak"
+
+'''
+Function to show/hide password
+This function is called when the user clicks the show/hide password button.
+It changes the password entry widget to show or hide the password.
+It also changes the button image to indicate the current state.
+'''
 def buttonShowPassword_click():
+    # If the password is currently shown, hide it and change the button image to show
     if entryPassword.cget("show") == "":
         entryPassword.config(show="*")
         buttonShowPassword.config(image=img_show)
+    # Else, if the password is currently hidden, show it and change the button image to hide
     else:
         entryPassword.config(show="")
         buttonShowPassword.config(image=img_hide)
 
-# Function to save password in clipboard
+
+'''
+Function to copy password to clipboard
+This function is called when the user clicks the copy password button.
+'''
 def buttonCopyPassword_click():
-    #print(f"{entryPassword.get()}")
     root.clipboard_clear()
     root.clipboard_append(entryPassword.get())
 
-# Function called when password entry text change
+'''
+Function called each time password entry is changed
+'''
 def entryPassword_change(*args):
     password = var.get()
     strength = calculatePasswordStrength(password)
     labelStrength.config(text=f"Password Strength: {strength}")
     update_strength_image(strength)
 
-# Function to give a score to current typed password
+'''
+Function to calculate password strength
+This function calculates the password strength based on the following criteria:
+- Length >= 8
+- At least one uppercase letter
+- At least one lowercase letter
+- At least one digit
+- At least one special character
+- Less than 30% repeated characters
+- No sequences of 3 or more repeated characters
+The function returns the password strength as a string.
+'''
 def calculatePasswordStrength(password):
     length_criteria = len(password) >= 8
     uppercase_criteria = any(char.isupper() for char in password)
@@ -47,35 +95,43 @@ def calculatePasswordStrength(password):
     ])
 
     if strength_score == 7:
-        return "Very Strong"
+        return VERY_STRONG_PASSWORD
     elif strength_score == 6:
-        return "Strong"
+        return STRONG_PASSWORD
     elif strength_score == 5:
-        return "Medium"
+        return MEDIUM_PASSWORD
     elif strength_score == 4:
-        return "Weak"
+        return WEAK_PASSWORD
     else:
-        return "Very Weak"
+        return VERY_WEAK_PASSWORD
 
-# Function to update image following password strngth score
+'''
+Function to update the strength image based on the password strength
+'''
 def update_strength_image(strength):
-    if strength == "Very Strong":
+    if strength == VERY_STRONG_PASSWORD:
         img = img_very_strong
-    elif strength == "Strong":
+    elif strength == STRONG_PASSWORD:
         img = img_strong
-    elif strength == "Medium":
+    elif strength == MEDIUM_PASSWORD:
         img = img_medium
-    elif strength == "Weak":
+    elif strength == WEAK_PASSWORD:
         img = img_weak
     else:
         img = img_very_weak
     labelImage.config(image=img)
 
-# Function to resize image to fit desired size
+'''
+Function to load and resize an image
+This function loads an image from a file and resizes it to the desired size.
+It returns the image as a PhotoImage object.
+'''
 def load_and_resize_image(path, size):
     image = Image.open(path)
     image = image.resize(size)
     return ImageTk.PhotoImage(image)
+
+
 
 
 # Create the main window
