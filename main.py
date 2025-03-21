@@ -139,7 +139,22 @@ root = tk.Tk()
 root.iconbitmap("images/PasswordStrengthChecker.ico")
 root.title("PSC - Password Strength Checker")
 root.resizable(False, False)
-root.geometry("350x280")
+#root.geometry("350x280")
+
+# Desired window size
+window_width = 350
+window_height = 280
+
+# Get the screen width and height
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+
+# Calculate the position to center the window
+position_x = (screen_width // 2) - (window_width // 2)
+position_y = (screen_height // 2) - (window_height // 2)
+
+# Set the geometry of the window
+root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
 
 myappid = u'djrusskof.passwordStrengthChecker.1.0.0'
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
